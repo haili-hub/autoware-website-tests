@@ -85,9 +85,9 @@ npm run allure:report
 
 ## CI
 
-テストは `main` ブランチへのプッシュおよびプルリクエスト時に自動実行されます。
+`main` へのコミットをプッシュすると、CI ワークフローが自動的にトリガーされます。別途操作は不要です。`main` へのプルリクエスト時にも自動実行されます。
 
-ワークフローを手動でトリガーするには：
+新しいコミットなしで手動でトリガーするには：
 
 1. GitHub の **Actions** → **CI — E2E Tests** を開く。
 2. **Run workflow** → **Run workflow** をクリック。
@@ -101,6 +101,5 @@ gh workflow run ci-e2e-tests.yml --repo haili-hub/autoware-website-tests
 ## 備考
 
 - 自動テストが対象にしているのは、公開ホームページから GitHub の README までの導線確認です。
-- **ブラウザ翻訳**（右クリック → 日本語に翻訳）はブラウザのネイティブ機能であり、Playwright では自動化できません。翻訳品質の確認はテスト計画内の手動チェックとして扱います。
 - `autoware.org` はバックグラウンドポーリングを使用しているため `networkidle` が解決されません。テストではデフォルトの `load` イベントを使用しています。
 - `playwright-core` などの依存関係はローカルの `node_modules/` に配置し、GitHub にはコミットしません。clone 後に `npm ci` と `npx playwright install chromium` を実行してください。

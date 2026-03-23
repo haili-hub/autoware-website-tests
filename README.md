@@ -85,9 +85,9 @@ The latest test report is published to [GitHub Pages](https://haili-hub.github.i
 
 ## CI
 
-Tests run automatically on every push and pull request to `main`.
+Every commit pushed to `main` automatically triggers the CI workflow — no separate step needed. Tests also run on pull requests to `main`.
 
-To trigger the workflow manually:
+To trigger the workflow manually without a new commit:
 
 1. Go to **Actions** → **CI — E2E Tests** on GitHub.
 2. Click **Run workflow** → **Run workflow**.
@@ -101,6 +101,6 @@ gh workflow run ci-e2e-tests.yml --repo haili-hub/autoware-website-tests
 ## Notes
 
 - The automated suite verifies the public homepage-to-GitHub-to-README journey only.
-- **Browser translation** (right-click › Translate to Japanese) is a browser-native feature and cannot be automated via Playwright. Translation quality is documented as a manual check in the test plan.
+- **Browser translation** (right-click › Translate to Japanese) is a browser-native feature and cannot be automated via Playwright. It is out of scope for this suite.
 - `autoware.org` uses background polling that prevents `networkidle` from ever resolving; tests use the default `load` event instead.
 - Dependencies such as `playwright-core` stay in the local `node_modules/` directory and are not committed to GitHub. After cloning, users should run `npm ci` and `npx playwright install chromium`.
