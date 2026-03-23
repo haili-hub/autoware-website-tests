@@ -1,4 +1,4 @@
-name: "Copilot Setup Steps"
+name: "Copilot Agent Environment Setup (do not rename this file)"
 
 on:
   workflow_dispatch:

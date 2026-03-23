@@ -2,7 +2,7 @@
 
 [English](README.md) | [日本語](README.ja.md)
 
-![Playwright Tests](https://github.com/haili-hub/autoware-website-tests/actions/workflows/playwright.yml/badge.svg)
+![CI](https://github.com/haili-hub/autoware-website-tests/actions/workflows/ci-e2e-tests.yml/badge.svg)
 
 Playwright end-to-end tests for the [Autoware](https://autoware.org/) website navigation workflow, covering the journey from the homepage through to the GitHub repository README.
 
