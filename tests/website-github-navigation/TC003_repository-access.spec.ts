@@ -1,27 +1,12 @@
 // spec: specs/autoware-website-navigation.plan.md
 import { test, expect } from '@playwright/test';
+import { AUTOWARE_REPO_URL, openAutowareRepoFromHome } from './helpers';
 
 test.describe('GitHub Navigation Workflow', () => {
-  test('GitHub Repository Access', async ({ page }) => {
-    // 1. Navigate directly to autowarefoundation org
-    await page.goto('https://github.com/autowarefoundation');
-    await expect(page).toHaveURL(/github\.com\/autowarefoundation/);
+  test('Homepage workflow reaches the Autoware repository', async ({ page }) => {
+    const repoPage = await openAutowareRepoFromHome(page);
 
-    // 2. Locate the Repositories tab
-    const repoTab = page.locator('a:has-text("Repositories")').first();
-    await expect(repoTab).toBeVisible();
-
-    // 3. Click Repositories
-    await repoTab.click();
-    await expect(page).toHaveURL(/autowarefoundation.*repositories/);
-
-    // 4. Find the autoware repository
-    const autowareRepo = page.locator('a[href="/autowarefoundation/autoware"]').first();
-    await expect(autowareRepo).toBeVisible();
-
-    // 5. Click on the autoware repository
-    await autowareRepo.click();
-    await expect(page).toHaveURL(/github\.com\/autowarefoundation\/autoware/);
-    await expect(page.locator('.markdown-body').first()).toBeVisible();
+    await expect(repoPage).toHaveURL(new RegExp(`${AUTOWARE_REPO_URL}/?$`));
+    await expect(repoPage.locator('#readme, article.markdown-body').first()).toBeVisible();
   });
 });

@@ -11,9 +11,9 @@ Playwright end-to-end tests for the [Autoware](https://autoware.org/) website na
 | File | Test | Target |
 | ---- | ---- | ------ |
 | `tests/website-github-navigation/TC001_initial-access.spec.ts` | Initial Website Access | autoware.org |
-| `tests/website-github-navigation/TC002_find-github-link.spec.ts` | Find and Access GitHub Link | autoware.org → github.com |
-| `tests/website-github-navigation/TC003_repository-access.spec.ts` | GitHub Repository Access | github.com/autowarefoundation |
-| `tests/website-github-navigation/TC004_readme-translation.spec.ts` | README Access | github.com/autowarefoundation/autoware |
+| `tests/website-github-navigation/TC002_find-github-link.spec.ts` | Homepage GitHub CTA | autoware.org → github.com/autowarefoundation |
+| `tests/website-github-navigation/TC003_repository-access.spec.ts` | Homepage to Repository Journey | autoware.org → github.com/autowarefoundation/autoware |
+| `tests/website-github-navigation/TC004_readme-content.spec.ts` | README Content Verification | autoware.org → github.com/autowarefoundation/autoware#readme |
 
 ## Requirements
 
@@ -54,11 +54,11 @@ npm run test:allure
 npm run allure:report
 ```
 
-Results are written to `allure-results/` and the generated report to `allure-report/`.
+Results are written to `reports/allure-results/` and the generated report to `reports/allure-report/`.
 
 ## Configuration
 
-`playwright.config.spec.ts` — Chromium only, with the following timeouts to accommodate the `autoware.org` site load:
+`playwright.config.ts` configures Chromium-only execution, with the following timeouts to accommodate the `autoware.org` site load:
 
 | Setting | Value |
 | ------- | ----- |
@@ -76,5 +76,6 @@ The source test plan lives at `specs/autoware-website-navigation.plan.md`.
 
 ## Notes
 
-- **Browser translation** (right-click › Translate to Japanese) is a browser-native feature and cannot be automated via Playwright. Translation quality requires manual verification.
+- The automated suite verifies the public homepage-to-GitHub-to-README journey only.
+- **Browser translation** (right-click › Translate to Japanese) is a browser-native feature and cannot be automated via Playwright. Translation quality is documented as a manual check in the test plan.
 - `autoware.org` uses background polling that prevents `networkidle` from ever resolving; tests use the default `load` event instead.
