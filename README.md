@@ -10,10 +10,10 @@ Playwright end-to-end tests for the [Autoware](https://autoware.org/) website na
 
 | File | Test | Target |
 | ---- | ---- | ------ |
-| `tests/website-github-navigation/TC001_initial-access.ts` | Initial Website Access | autoware.org |
-| `tests/website-github-navigation/TC002_find-github-link.ts` | Find and Access GitHub Link | autoware.org → github.com |
-| `tests/website-github-navigation/TC003_repository-access.ts` | GitHub Repository Access | github.com/autowarefoundation |
-| `tests/website-github-navigation/TC004_readme-translation.ts` | README Access | github.com/autowarefoundation/autoware |
+| `tests/website-github-navigation/TC001_initial-access.spec.ts` | Initial Website Access | autoware.org |
+| `tests/website-github-navigation/TC002_find-github-link.spec.ts` | Find and Access GitHub Link | autoware.org → github.com |
+| `tests/website-github-navigation/TC003_repository-access.spec.ts` | GitHub Repository Access | github.com/autowarefoundation |
+| `tests/website-github-navigation/TC004_readme-translation.spec.ts` | README Access | github.com/autowarefoundation/autoware |
 
 ## Requirements
 
@@ -58,7 +58,7 @@ Results are written to `allure-results/` and the generated report to `allure-rep
 
 ## Configuration
 
-`playwright.config.ts` — Chromium only, with the following timeouts to accommodate the `autoware.org` site load:
+`playwright.config.spec.ts` — Chromium only, with the following timeouts to accommodate the `autoware.org` site load:
 
 | Setting | Value |
 | ------- | ----- |
