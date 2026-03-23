@@ -1,64 +1,129 @@
 # Autoware Website Navigation Test Plan
 
+## Overview
+
+| Field | Detail |
+| ----- | ------ |
+| Project | autoware-website-tests |
+| Version | 1.0 |
+| Date | 2026-03-23 |
+| Author | haili.a.li |
+| Status | Active |
+
 ## Scope
 
-This plan covers the public user journey from the `autoware.org` homepage to the Autoware Foundation GitHub organization, the `autoware` repository, and the repository README.
+This test plan covers the end-to-end public user journey from the `autoware.org` homepage through to the Autoware Foundation GitHub organization, the `autoware` repository, and the repository README content.
 
-Browser-native translation to Japanese is explicitly treated as a manual check. Playwright automation only validates that the README is reachable and readable before any browser translation feature is used.
+Out of scope: browser-native translation features (e.g. right-click → Translate to Japanese). These cannot be automated via Playwright and are excluded from this suite.
 
-## Automated Scenarios
+## Test environment
 
-### 1. Initial Website Access
+| Item | Value |
+| ---- | ----- |
+| Browser | Chromium (Playwright-managed) |
+| Base URL | `https://autoware.org/` |
+| External dependency | `https://github.com/autowarefoundation` |
+| Execution | Local and GitHub Actions CI |
+| Framework | Playwright (TypeScript) |
+
+## Pass / fail criteria
+
+- **Pass**: all `expect` assertions resolve within configured timeouts with no retries consumed.
+- **Fail**: any assertion throws, a navigation returns a non-2xx response, or the test exceeds the timeout after retries.
+
+---
+
+## Test cases
+
+### TC001 — Initial Website Access
 
 **File:** `tests/website-github-navigation/TC001_initial-access.spec.ts`
 
-**Steps:**
-1. Navigate to `https://autoware.org/`
-   - expect: the response is successful
-   - expect: the page URL remains on the public Autoware homepage
-   - expect: the page title includes Autoware branding
-2. Confirm the main layout is available
-   - expect: the main content area is visible
-   - expect: the primary navigation is visible
-3. Confirm the homepage exposes the GitHub entry point used by the workflow
-   - expect: the `AUTOWARE ON GITHUB` link is visible
-   - expect: the link points to the Autoware Foundation GitHub organization
+**Objective:** Verify that the Autoware homepage loads correctly and exposes the GitHub entry point.
 
-### 2. Homepage GitHub CTA
+**Preconditions:** Network access to `autoware.org`.
+
+**Steps:**
+
+1. Navigate to `https://autoware.org/`.
+   - Expected: HTTP response is successful (2xx).
+   - Expected: page URL resolves to `autoware.org`.
+   - Expected: page title contains "Autoware".
+2. Verify the main layout.
+   - Expected: `<main>` or `[role="main"]` element is visible.
+   - Expected: primary navigation (`<nav>` or `[role="navigation"]`) is visible.
+3. Verify the GitHub entry point.
+   - Expected: "AUTOWARE ON GITHUB" link is visible.
+   - Expected: link `href` matches `github.com/autowarefoundation`.
+
+---
+
+### TC002 — Homepage GitHub CTA
 
 **File:** `tests/website-github-navigation/TC002_find-github-link.spec.ts`
 
-**Steps:**
-1. Open the Autoware homepage
-2. Locate the `AUTOWARE ON GITHUB` call-to-action
-   - expect: the CTA is visible and actionable
-3. Activate the CTA
-   - expect: the browser reaches `github.com/autowarefoundation`
-   - expect: the Autoware Foundation organization page is displayed
-   - expect: the GitHub organization navigation includes a `Repositories` tab
+**Objective:** Verify that clicking the GitHub CTA navigates to the Autoware Foundation organization page.
 
-### 3. Homepage to Repository Journey
+**Preconditions:** Network access to `autoware.org` and `github.com`.
+
+**Steps:**
+
+1. Load the Autoware homepage.
+2. Click the "AUTOWARE ON GITHUB" link.
+   - Expected: browser navigates to `https://github.com/autowarefoundation`.
+   - Expected: Autoware Foundation organization page is displayed.
+   - Expected: a "Repositories" navigation link is visible on the organization page.
+
+---
+
+### TC003 — Homepage to Repository Journey
 
 **File:** `tests/website-github-navigation/TC003_repository-access.spec.ts`
 
-**Steps:**
-1. Follow the homepage GitHub CTA to the Autoware Foundation organization page
-2. Open the `Repositories` tab
-   - expect: the repositories view is displayed
-3. Locate the `autoware` repository entry
-   - expect: the repository link is visible in the organization listing
-4. Open the repository
-   - expect: the browser reaches `github.com/autowarefoundation/autoware`
-   - expect: the repository page loads successfully
-   - expect: the README section is visible on the repository landing page
+**Objective:** Verify the full navigation path from the homepage to the `autoware` repository.
 
-### 4. README Content Verification
+**Preconditions:** Network access to `autoware.org` and `github.com`.
+
+**Steps:**
+
+1. Load the Autoware homepage and navigate to the GitHub organization (via TC002 flow).
+2. Click the "Repositories" tab.
+   - Expected: URL matches the repositories view of `github.com/autowarefoundation`.
+3. Click the `autoware` repository link.
+   - Expected: browser navigates to `https://github.com/autowarefoundation/autoware`.
+   - Expected: the `#readme` or `.markdown-body` section is visible on the repository page.
+
+---
+
+### TC004 — README Content Verification
 
 **File:** `tests/website-github-navigation/TC004_readme-content.spec.ts`
 
+**Objective:** Verify that the repository README is readable and contains expected Autoware content.
+
+**Preconditions:** Network access to `autoware.org` and `github.com`. TC003 flow must be traversable.
+
 **Steps:**
-1. Traverse the homepage-to-repository workflow
-2. Scroll to the README section
-   - expect: the README body is visible
-   - expect: the README contains visible heading structure
-   - expect: the README contains Autoware content
+
+1. Traverse the full homepage-to-repository workflow (TC001 → TC002 → TC003 flow).
+2. Scroll the README section into view.
+   - Expected: README body (`.markdown-body`) is visible.
+   - Expected: at least one heading element (`h1`, `h2`, or `h3`) is visible within the README.
+   - Expected: README body contains the text "autoware" (case-insensitive).
+
+---
+
+## Traceability matrix
+
+| TC ID | Test name | File | Automated |
+| ----- | --------- | ---- | --------- |
+| TC001 | Initial Website Access | `TC001_initial-access.spec.ts` | Yes |
+| TC002 | Homepage GitHub CTA | `TC002_find-github-link.spec.ts` | Yes |
+| TC003 | Homepage to Repository Journey | `TC003_repository-access.spec.ts` | Yes |
+| TC004 | README Content Verification | `TC004_readme-content.spec.ts` | Yes |
+
+## Known constraints
+
+- `autoware.org` uses background polling that prevents `networkidle` from resolving. All navigations use the default `load` event.
+- The GitHub organization page may open in a new tab (popup) depending on the link target attribute. The helper `clickAndFollow` handles both cases transparently.
+- CI retries are set to 2 to account for transient network latency on external sites.
