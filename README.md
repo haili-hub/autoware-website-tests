@@ -96,7 +96,7 @@ To trigger the workflow manually without a new commit:
 Or via the GitHub CLI:
 
 ```bash
-gh workflow run ci-e2e-tests.yml --repo <your-username>/autoware-website-tests
+gh workflow run ci-e2e-tests.yml --repo kairei2014/autoware-website-tests
 ```
 
 The latest test report is published to GitHub Pages after each CI run on `main`.
@@ -113,15 +113,14 @@ The latest test report is published to GitHub Pages after each CI run on `main`.
 4. **Trigger the first run** by pushing any commit to `main`, or manually via GitHub CLI:
 
    ```bash
-   gh workflow run ci-e2e-tests.yml --repo <your-username>/autoware-website-tests
+   gh workflow run ci-e2e-tests.yml --repo kairei2014/autoware-website-tests
    ```
 
-After the first run the CI badge resolves and the test report is live at `https://<your-username>.github.io/autoware-website-tests/`.
+After the first run the CI badge resolves and the test report is live at `https://kairei2014.github.io/autoware-website-tests/`.
 
 ## Notes
 
 - The automated suite verifies the public homepage-to-GitHub-to-README journey only.
-- **Browser translation** (right-click › Translate to Japanese) is a browser-native feature and cannot be automated via Playwright. It is out of scope for this suite.
 - In sandboxed macOS AI-agent sessions, Chromium can fail before launch with a Mach port permission error. Treat that as an execution-environment issue; run the suite in CI or a non-sandboxed local session instead.
 - `autoware.org` uses background polling that prevents `networkidle` from ever resolving; tests use the default `load` event instead.
 - For third-party pages such as GitHub, prefer validating the anchor `href` and navigating directly when the requirement is destination reachability. Use `click()` only when the click interaction itself is what the test must verify.

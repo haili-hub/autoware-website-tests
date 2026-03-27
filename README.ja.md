@@ -2,8 +2,8 @@
 
 [English](README.md) | [日本語](README.ja.md)
 
-![CI](https://github.com/haili-hub/autoware-website-tests/actions/workflows/ci-e2e-tests.yml/badge.svg)
-[![テストレポート](https://img.shields.io/badge/テストレポート-GitHub%20Pages-blue)](https://haili-hub.github.io/autoware-website-tests/)
+![CI](https://github.com/kairei2014/autoware-website-tests/actions/workflows/ci-e2e-tests.yml/badge.svg)
+[![テストレポート](https://img.shields.io/badge/テストレポート-GitHub%20Pages-blue)](https://kairei2014.github.io/autoware-website-tests/)
 
 ## 概要
 
@@ -96,7 +96,7 @@ npm run allure:report
 または GitHub CLI を使用：
 
 ```bash
-gh workflow run ci-e2e-tests.yml --repo <your-username>/autoware-website-tests
+gh workflow run ci-e2e-tests.yml --repo kairei2014/autoware-website-tests
 ```
 
 `main` への CI 実行後、最新のテストレポートが GitHub Pages に公開されます。
@@ -113,16 +113,15 @@ gh workflow run ci-e2e-tests.yml --repo <your-username>/autoware-website-tests
 4. **初回実行をトリガー** — `main` へコミットをプッシュするか、GitHub CLI で手動実行する：
 
    ```bash
-   gh workflow run ci-e2e-tests.yml --repo <your-username>/autoware-website-tests
+   gh workflow run ci-e2e-tests.yml --repo kairei2014/autoware-website-tests
    ```
 
-初回実行後、CI バッジが有効になり、テストレポートが `https://<your-username>.github.io/autoware-website-tests/` で公開されます。
+初回実行後、CI バッジが有効になり、テストレポートが `https://kairei2014.github.io/autoware-website-tests/` で公開されます。
 
 ## 備考
 
 - 自動テストが対象にしているのは、公開ホームページから GitHub の README までの導線確認です。
 - macOS のサンドボックス付き AI エージェント実行環境では、Chromium が Mach port の権限エラーで起動前に失敗することがあります。これはテスト内容ではなく実行環境の問題なので、CI またはサンドボックス外のローカル実行を使用してください。
-- **ブラウザ翻訳**（右クリック → 日本語に翻訳）はブラウザのネイティブ機能であり、Playwright では自動化できません。本テストスイートのスコープ外です。
 - `autoware.org` はバックグラウンドポーリングを使用しているため `networkidle` が解決されません。テストではデフォルトの `load` イベントを使用しています。
 - GitHub のようなサードパーティーページでは、要件が「到達先の確認」である場合はアンカーの `href` を検証してから直接遷移することを優先します。`click()` はクリック操作自体を検証したい場合に限って使用します。
 - `playwright-core` などの依存関係はローカルの `node_modules/` に配置し、GitHub にはコミットしません。clone 後に `npm ci` と `npx playwright install chromium` を実行してください。
