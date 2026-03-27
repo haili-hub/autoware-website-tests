@@ -23,10 +23,10 @@ The source test plan lives at `specs/autoware-website-navigation.test-plan.md`.
 
 | File | Test | Target |
 | ---- | ---- | ------ |
-| `tests/website-github-navigation/TC001_initial-access.spec.ts` | Initial Website Access | autoware.org |
-| `tests/website-github-navigation/TC002_find-github-link.spec.ts` | Homepage GitHub CTA | autoware.org → github.com/autowarefoundation |
-| `tests/website-github-navigation/TC003_repository-access.spec.ts` | Homepage to Repository Journey | autoware.org → github.com/autowarefoundation/autoware |
-| `tests/website-github-navigation/TC004_readme-content.spec.ts` | README Content Verification | autoware.org → github.com/autowarefoundation/autoware#readme |
+| `TC001_initial-access.ts` | Initial Website Access | autoware.org |
+| `TC002_find-github-link.ts` | Homepage GitHub CTA | autoware.org → github.com/autowarefoundation |
+| `TC003_repository-access.ts` | Homepage to Repository Journey | autoware.org → github.com/autowarefoundation/autoware |
+| `TC004_readme-content.ts` | README Content Verification | autoware.org → github.com/autowarefoundation/autoware#readme |
 
 ## Setup
 
